@@ -6,15 +6,101 @@ import pandas as pd
 
 # Lista de Unidades Federativas
 def lista_ufs():
-    return ['AC - Acre',              'AL - Alagoas',              'AP - Amapá',
-            'AM - Amazonas',          'BA - Bahia',                'CE - Ceará',
-            'DF - Distrito Federal',  'ES - Espírito Santo',       'GO - Goiás',
-            'MA - Maranhão',          'MT - Mato Grosso',          'MS - Mato Grosso do Sul',
-            'MG - Minas Gerais',      'PA - Pará',                 'PB - Paraíba',
-            'PR - Paraná',            'PE - Pernambuco',           'PI - Piauí',
-            'RJ - Rio de Janeiro',    'RN - Rio Grande do Norte',  'RS - Rio Grande do Sul',
-            'RO - Rondônia',          'RR - Roraima',              'SC - Santa Catarina',
-            'SP - São Paulo',         'SE - Sergipe',              'TO - Tocantins']
+    
+    return {
+        
+        # Região Norte
+        'AC': {'Nome': 'Acre',
+               'Latitude': -8.77,
+               'Longitude': -70.55},
+        'AM': {'Nome': 'Amazonas',
+               'Latitude': -3.47,
+               'Longitude': -65.10},
+        'AP': {'Nome': 'Amapá',
+               'Latitude': 1.41,
+               'Longitude': -51.77},
+        'PA': {'Nome': 'Pará',
+               'Latitude': -3.79,
+               'Longitude': -52.48},
+        'RO': {'Nome': 'Rondônia',
+               'Latitude': -10.83,
+               'Longitude': -63.34},
+        'RR': {'Nome': 'Roraima',
+               'Latitude': 1.99,
+               'Longitude': -61.33},
+        'TO': {'Nome': 'Tocantins',
+               'Latitude': -9.46,
+               'Longitude': -48.26},
+        
+        # Região Nordeste
+        'AL': {'Nome': 'Alagoas',
+               'Latitude': -9.62,
+               'Longitude': -36.82},
+        'BA': {'Nome': 'Bahia',
+               'Latitude': -13.29,
+               'Longitude': -41.71},
+        'CE': {'Nome': 'Ceará',
+               'Latitude': -5.20,
+               'Longitude': -39.53},
+        'MA': {'Nome': 'Maranhão',
+               'Latitude': -5.42,
+               'Longitude': -45.44},
+        'PB': {'Nome': 'Paraíba',
+               'Latitude': -7.28,
+               'Longitude': -36.72},
+        'PE': {'Nome': 'Pernambuco',
+               'Latitude': -8.38,
+               'Longitude': -37.86},
+        'PI': {'Nome': 'Piauí',
+               'Latitude': -6.60,
+               'Longitude': -42.28},
+        'RN': {'Nome': 'Rio Grande do Norte',
+               'Latitude': -5.81,
+               'Longitude': -36.59},
+        'SE': {'Nome': 'Sergipe',
+               'Latitude': -10.57,
+               'Longitude': -37.45},
+        
+        # Região Centro-Oeste
+        'DF': {'Nome': 'Distrito Federal',
+               'Latitude': -15.83,
+               'Longitude': -47.86},
+        'GO': {'Nome': 'Goiás',
+               'Latitude': -15.98,
+               'Longitude': -49.86},
+        'MT': {'Nome': 'Mato Grosso',
+               'Latitude': -12.64,
+               'Longitude': -55.42},
+        'MS': {'Nome': 'Mato Grosso do Sul',
+               'Latitude': -20.51,
+               'Longitude': -54.54},
+        
+        # Região Sudeste
+        'ES': {'Nome': 'Espírito Santo',
+               'Latitude': -19.19,
+               'Longitude': -40.34},
+        'MG': {'Nome': 'Minas Gerais',
+               'Latitude': -18.10,
+               'Longitude': -44.38},
+        'RJ': {'Nome': 'Rio de Janeiro',
+               'Latitude': -22.25,
+               'Longitude': -42.66},
+        'SP': {'Nome': 'São Paulo',
+               'Latitude': -22.19,
+               'Longitude': -48.79},
+        
+        # Região Sul
+        'PR': {'Nome': 'Paraná',
+               'Latitude': -24.89,
+               'Longitude': -51.55},
+        'RS': {'Nome': 'Rio Grande do Sul',
+               'Latitude': -30.17,
+               'Longitude': -53.50},
+        'SC': {'Nome': 'Santa Catarina',
+               'Latitude': -27.45,
+               'Longitude': -50.95}
+        
+    }
 
 
 # Baixar lista de municípios do Wikipedia

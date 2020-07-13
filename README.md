@@ -6,3 +6,9 @@ Este é o repositório para os arquivos do meu projeto de Indicadores Municipais
 - Inserir os dados capturados em um arquivo **[GeoJSON](https://github.com/tbrugz/geodata-br)**;
 - Carregar o novo GeoJSON em um mapa **[Leaflet](https://github.com/thedirtyfew/dash-leaflet)**;
 - Construir uma interface de inputs e callbacks via **[Dash](https://github.com/plotly/dash)**.
+
+---
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/GusFurtado/IndicadoresMunicipais/master/assets/Screenshot.png"><br>
+</div>
