@@ -148,7 +148,7 @@ def bandeiras(uf, tamanho=100):
         'PB': f'b/bb/Bandeira_da_Para%C3%ADba.svg/{tamanho}px-Bandeira_da_Para%C3%ADba.svg.png',
         'PE': f'5/59/Bandeira_de_Pernambuco.svg/{tamanho}px-Bandeira_de_Pernambuco.svg.png',
         'PI': f'3/33/Bandeira_do_Piau%C3%AD.svg/{tamanho}px-Bandeira_do_Piau%C3%AD.svg.png',
-        'RN': f'3/30/Bandeira_do_Rio_Grande_do_N{tamanho}te.svg/{tamanho}px-Bandeira_do_Rio_Grande_do_Norte.svg.png',
+        'RN': f'3/30/Bandeira_do_Rio_Grande_do_Norte.svg/{tamanho}px-Bandeira_do_Rio_Grande_do_Norte.svg.png',
         'SE': f'b/be/Bandeira_de_Sergipe.svg/{tamanho}px-Bandeira_de_Sergipe.svg.png',
 
         # Região Centro-Oeste
