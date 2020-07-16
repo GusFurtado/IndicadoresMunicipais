@@ -1,5 +1,6 @@
 import requests
 
+import dash_leaflet as dl
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -11,92 +12,119 @@ def lista_ufs():
         
         # Região Norte
         'AC': {'Nome': 'Acre',
+               'Área': 164123.040,
                'Latitude': -8.77,
                'Longitude': -70.55},
         'AM': {'Nome': 'Amazonas',
+               'Área': 1559159.148,
                'Latitude': -3.47,
                'Longitude': -65.10},
         'AP': {'Nome': 'Amapá',
+               'Área': 142828.521,
                'Latitude': 1.41,
                'Longitude': -51.77},
         'PA': {'Nome': 'Pará',
+               'Área': 1247954.666,
                'Latitude': -3.79,
                'Longitude': -52.48},
         'RO': {'Nome': 'Rondônia',
+               'Área': 237590.547,
                'Latitude': -10.83,
                'Longitude': -63.34},
         'RR': {'Nome': 'Roraima',
+               'Área': 224300.506,
                'Latitude': 1.99,
                'Longitude': -61.33},
         'TO': {'Nome': 'Tocantins',
+               'Área': 277720.520,
                'Latitude': -9.46,
                'Longitude': -48.26},
         
         # Região Nordeste
         'AL': {'Nome': 'Alagoas',
+               'Área': 27778.506,
                'Latitude': -9.62,
                'Longitude': -36.82},
         'BA': {'Nome': 'Bahia',
+               'Área': 564733.177,
                'Latitude': -13.29,
                'Longitude': -41.71},
         'CE': {'Nome': 'Ceará',
+               'Área': 148920.472,
                'Latitude': -5.20,
                'Longitude': -39.53},
         'MA': {'Nome': 'Maranhão',
+               'Área': 331937.450,
                'Latitude': -5.42,
                'Longitude': -45.44},
         'PB': {'Nome': 'Paraíba',
+               'Área': 56585.000,
                'Latitude': -7.28,
                'Longitude': -36.72},
         'PE': {'Nome': 'Pernambuco',
+               'Área': 98311.616,
                'Latitude': -8.38,
                'Longitude': -37.86},
         'PI': {'Nome': 'Piauí',
+               'Área': 251577.738,
                'Latitude': -6.60,
                'Longitude': -42.28},
         'RN': {'Nome': 'Rio Grande do Norte',
+               'Área': 52811.047,
                'Latitude': -5.81,
                'Longitude': -36.59},
         'SE': {'Nome': 'Sergipe',
+               'Área': 21915.116,
                'Latitude': -10.57,
                'Longitude': -37.45},
         
         # Região Centro-Oeste
         'DF': {'Nome': 'Distrito Federal',
+               'Área': 5779.999,
                'Latitude': -15.83,
                'Longitude': -47.86},
         'GO': {'Nome': 'Goiás',
+               'Área': 340111.783,
                'Latitude': -15.98,
                'Longitude': -49.86},
         'MT': {'Nome': 'Mato Grosso',
+               'Área': 903366.192,
                'Latitude': -12.64,
                'Longitude': -55.42},
         'MS': {'Nome': 'Mato Grosso do Sul',
+               'Área': 357145.532,
                'Latitude': -20.51,
                'Longitude': -54.54},
         
         # Região Sudeste
         'ES': {'Nome': 'Espírito Santo',
+               'Área': 46095.583,
                'Latitude': -19.19,
                'Longitude': -40.34},
         'MG': {'Nome': 'Minas Gerais',
+               'Área': 586522.122,
                'Latitude': -18.10,
                'Longitude': -44.38},
         'RJ': {'Nome': 'Rio de Janeiro',
+               'Área': 43780.172,
                'Latitude': -22.25,
                'Longitude': -42.66},
         'SP': {'Nome': 'São Paulo',
+               'Área': 248222.362,
                'Latitude': -22.19,
                'Longitude': -48.79},
         
         # Região Sul
         'PR': {'Nome': 'Paraná',
+               'Área': 199307.922,
                'Latitude': -24.89,
                'Longitude': -51.55},
         'RS': {'Nome': 'Rio Grande do Sul',
+               'Área': 281730.223,
                'Latitude': -30.17,
                'Longitude': -53.50},
         'SC': {'Nome': 'Santa Catarina',
+               'Área': 95736.165,
                'Latitude': -27.45,
                'Longitude': -50.95}
         
@@ -171,3 +199,54 @@ def bandeiras(uf, tamanho=100):
     }
     
     return url + bandeira[uf]
+
+
+# Função Dash-Leaflet GeoJSON customizada
+def _features_style(data, kpi, colorscale):
+
+    values = [float(feature['properties'][kpi]) for feature in data['features']]
+
+    mx = max(values)
+    mn = min(values)
+
+    marks = [mn + i*(mx-mn)/8 for i in range(8)]
+
+    colorscales = {
+        'default': ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'],
+        'azul':    ['#EDF1FC', '#B9C9F3', '#85A2EA', '#517AE1', '#2355D1', '#1B409D', '#122A69', '#091534']
+    }
+    
+    cs = colorscales[colorscale]
+    
+    style = {}
+    for i, value in enumerate(values):
+
+        color = [cs[i] for i, item in enumerate(marks) if value >= item][-1]
+        style.update({
+            i: {
+                'fillColor': color,
+                'weight': 2,
+                'opacity': 1,
+                'color': 'white',
+                'dashArray': '3',
+                'fillOpacity': 0.7
+            }
+        })
+        
+    return style
+
+def _validate_feature_ids(data):
+    ids = [f["id"] for f in data["features"] if "id" in f]
+    return len(list(set(ids))) == len(data["features"])
+
+def geojson(data, kpi, colorscale='default', *args, **kwargs):
+    
+    feature_id = "id"
+    if not _validate_feature_ids(data):
+        feature_id = "dash_id"
+        for i, f in enumerate(data["features"]):
+            f[feature_id] = i
+    
+    feature_style = _features_style(data, kpi, colorscale)
+    
+    return dl.GeoJSON(*args, data=data, featureStyle=feature_style, featureId=feature_id, **kwargs)
