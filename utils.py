@@ -208,7 +208,7 @@ def get_colorscale(color):
         'default': ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'],
         'royal':   ['#EDF1FC', '#B9C9F3', '#85A2EA', '#517AE1', '#2355D1', '#1B409D', '#122A69', '#091534'],
         'ruby':    ['#FDEDEE', '#F7B6BA', '#F17E86', '#EB4752', '#DC1826', '#A5121C', '#6E0C13', '#370609'],
-        'corn':    ['#FFFCEB', '#FFF3AD', '#FFEA70', '#FFE033', '#F5D000', '#B89C00', '#7A6800', '#3D3400']
+        'maize':   ['#FFFCEB', '#FFF3AD', '#FFEA70', '#FFE033', '#F5D000', '#B89C00', '#7A6800', '#3D3400']
     }
     
     return colorscales[color]

@@ -30,7 +30,7 @@ KPIS = [
 
 UFS = [uf for uf in utils.lista_ufs()]
 COLORS = [
-    'default', 'royal', 'ruby', 'corn'
+    'default', 'royal', 'ruby', 'maize'
 ]
 
 
@@ -62,7 +62,8 @@ app.layout = html.Div([
         dbc.DropdownMenu(
             [html.A(
                 dbc.DropdownMenuItem(
-                    [html.Span(html.Img(src=utils.bandeiras(uf, 20))), html.Span('  ' + utils.lista_ufs()[uf]['Nome'])],
+                    [html.Span(html.Img(src=utils.bandeiras(uf, 20))),
+                     html.Span('  ' + utils.lista_ufs()[uf]['Nome'])],
                     id = {'uf_menu_item': uf}), href='/'+uf) for uf in UFS],
             direction = 'left',
             nav = True,
@@ -80,7 +81,8 @@ app.layout = html.Div([
         ),
         dbc.DropdownMenu(
             [dbc.DropdownMenuItem(
-                    color,
+                    [html.Span(html.Img(src=f'/assets/{color}.png', height=20)),
+                     html.Span('  ' + color)],
                     id = {'item_color': color},
                     n_clicks_timestamp = 0
                 ) for color in COLORS],
