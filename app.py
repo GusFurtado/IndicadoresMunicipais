@@ -142,7 +142,7 @@ def set_kpi(click, pathname, color):
         kpi = KPIS[0]
         
     # Baixar JSON
-    with open(f'assets/{uf}_geo.json', 'r') as js:
+    with open(f'data/{uf}_geo.json', 'r') as js:
         geo = json.load(js)
     
     # Criar colorbar

@@ -72,7 +72,7 @@ for uf in UFS:
                     id_geo['properties'].update({i: value})
                     break
 
-    with open(f'assets/{uf}_geo.json', 'w') as f:
+    with open(f'data/{uf}_geo.json', 'w') as f:
         json.dump(geo, f)
 
 print('Fim.')
