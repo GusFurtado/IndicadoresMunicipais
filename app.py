@@ -31,9 +31,7 @@ KPIS = [
 ]
 
 UFS = [uf for uf in utils.lista_ufs()]
-COLORS = [
-    'default', 'royal', 'ruby', 'maize', 'volt'
-]
+COLORS = ['default', 'royal', 'ruby', 'maize', 'volt']
 
 
 def get_info(feature=None, kpi=None, uf='AC'):
@@ -56,11 +54,12 @@ app = dash.Dash(external_stylesheets=[dbc.themes.SANDSTONE])
 app.title = 'Indicadores Municipais'
 app.layout = html.Div([
     
-    dcc.Store('memory_kpi', data='Lixo Coletado'),
-    dcc.Store('memory_color', data='default'),
-    dcc.Location(id='location'),
+    dcc.Location('memory_uf'),
+    dcc.Store('memory_kpi', storage_type='session'),
+    dcc.Store('memory_color', storage_type='session'),
     
     dbc.NavbarSimple([
+            
         dbc.DropdownMenu(
             [html.A(
                 dbc.DropdownMenuItem(
@@ -73,20 +72,25 @@ app.layout = html.Div([
             label = 'UF',
             id = 'button_uf'
         ),
+    
         dbc.DropdownMenu(
-            [dbc.DropdownMenuItem(kpi, id = {'item_kpi': kpi}) for kpi in KPIS],
+            [dbc.DropdownMenuItem(
+                    kpi,
+                    n_clicks_timestamp = 0,
+                    id = {'item_kpi': kpi}) for kpi in KPIS],
             direction = 'left',
             nav = True,
             in_navbar = True,
             label = 'Indicador',
             id = 'button_kpi'
         ),
+    
         dbc.DropdownMenu(
             [dbc.DropdownMenuItem(
                     [html.Span(html.Img(src=f'/assets/{color}.png', height=20)),
                      html.Span('  ' + color)],
-                    id = {'item_color': color},
-                    n_clicks_timestamp = 0
+                    n_clicks_timestamp = 0,
+                    id = {'item_color': color}
                 ) for color in COLORS],
             direction = 'left',
             nav = True,
@@ -94,6 +98,7 @@ app.layout = html.Div([
             label = 'Paleta de Cores',
             id = 'button_color'
         ),
+    
     ],
     brand = "Mapa de Indicadores Municipais",
     brand_href = "#",
@@ -115,35 +120,39 @@ app.layout = html.Div([
 #  ╚═══╩═════════╝
 
 
+# Trocar Indicador
+@app.callback([Output('button_kpi', 'label'),
+               Output('memory_kpi', 'data')],
+              [Input({'item_kpi': ALL}, 'n_clicks_timestamp')])
+def set_kpi(click):
+    kpi = KPIS[click.index(max(click))]
+    return kpi, kpi
+
+
 # Trocar paleta de cores
 @app.callback([Output('button_color', 'label'),
                Output('memory_color', 'data')],
               [Input({'item_color': ALL}, 'n_clicks_timestamp')])
-def set_colorpallet(click):
+def set_color(click):
     color = COLORS[click.index(max(click))]
     return color, color
 
 
 # Carregar mapa
 @app.callback([Output('map', 'children'),
-               Output('button_kpi', 'label'),
-               Output('button_uf', 'label'),
-               Output('memory_kpi', 'data')],
-              [Input({'item_kpi': ALL}, 'n_clicks'),
-               Input('location', 'pathname'),
-               Input('memory_color', 'data')])
-def set_kpi(click, pathname, color):
+               Output('button_uf', 'label')],
+              [Input('memory_kpi', 'data'),
+               Input('memory_color', 'data')],
+              [State('memory_uf', 'pathname')],
+               prevent_initial_call = True)
+def load_leaflet(kpi, color, uf):
     
     try:
-        uf = pathname[1:]
+        uf = uf[1:]
         uf_dict = utils.lista_ufs()[uf]
     except:
-        raise dash.exceptions.PreventUpdate
-    
-    # Identificar botão apertado
-    kpi = dash.callback_context.triggered[0]['prop_id'][13:-11]
-    if kpi == '':
-        kpi = KPIS[0]
+        uf = 'SP'
+        uf_dict = utils.lista_ufs()[uf]
         
     # Baixar JSON
     with open(f'data/{uf}_geo.json', 'r') as js:
@@ -165,15 +174,14 @@ def set_kpi(click, pathname, color):
     
     return dl.Map(
         children = [dl.TileLayer(), geojson, colorbar, info],
-        center = [uf_dict['Latitude'], uf_dict['Longitude']]
-    ), kpi, uf, kpi
+        center = [uf_dict['Latitude'], uf_dict['Longitude']]), uf
 
 
 # Atualizar caixa de informações
 @app.callback(Output("info", "children"),
              [Input("geojson", "featureHover")],
              [State('memory_kpi', 'data'),
-              State('location', 'pathname')])
+              State('memory_uf', 'pathname')])
 def info_hover(feature, data, uf):
     return get_info(feature, kpi=data, uf=uf[1:])
 
