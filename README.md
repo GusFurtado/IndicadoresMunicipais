@@ -10,7 +10,7 @@ Este é o repositório para os arquivos do meu projeto de Indicadores Municipais
 
 ---
 
-<div align="center" style="margin-bottom: 10px">
+<div align="center" style="margin-bottom: 20px">
   <img src="https://raw.githubusercontent.com/GusFurtado/IndicadoresMunicipais/master/assets/screenshot_sp.png"><br>
 </div>
 

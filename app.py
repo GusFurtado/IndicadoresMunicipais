@@ -30,8 +30,8 @@ KPIS = [
     'Sem Banheiro ou Sanitário'
 ]
 
-UFS = [uf for uf in utils.lista_ufs()]
-COLORS = ['default', 'royal', 'ruby', 'maize', 'volt']
+UFS = sorted([uf for uf in utils.lista_ufs()])
+COLORS = ['default', 'royal', 'ruby', 'maize', 'volt', 'portal']
 
 
 def get_info(feature=None, kpi=None, uf='AC'):
@@ -48,9 +48,10 @@ def get_info(feature=None, kpi=None, uf='AC'):
 #  ║ 2 ║ FRONT END  ║
 #  ╚═══╩════════════╝
 
-
+    
 # Criar Dash App
 app = dash.Dash(external_stylesheets=[dbc.themes.SANDSTONE])
+server = app.server
 app.title = 'Indicadores Municipais'
 app.layout = html.Div([
     
@@ -75,9 +76,9 @@ app.layout = html.Div([
     
         dbc.DropdownMenu(
             [dbc.DropdownMenuItem(
-                    kpi,
-                    n_clicks_timestamp = 0,
-                    id = {'item_kpi': kpi}) for kpi in KPIS],
+                kpi,
+                n_clicks_timestamp = 0,
+                id = {'item_kpi': kpi}) for kpi in KPIS],
             direction = 'left',
             nav = True,
             in_navbar = True,
@@ -87,11 +88,11 @@ app.layout = html.Div([
     
         dbc.DropdownMenu(
             [dbc.DropdownMenuItem(
-                    [html.Span(html.Img(src=f'/assets/{color}.png', height=20)),
-                     html.Span('  ' + color)],
-                    n_clicks_timestamp = 0,
-                    id = {'item_color': color}
-                ) for color in COLORS],
+                [html.Span(html.Img(src=f'/assets/{color}.png', height=20)),
+                 html.Span('  ' + color)],
+                n_clicks_timestamp = 0,
+                id = {'item_color': color}
+            ) for color in COLORS],
             direction = 'left',
             nav = True,
             in_navbar = True,
@@ -100,8 +101,9 @@ app.layout = html.Div([
         ),
     
     ],
-    brand = "Mapa de Indicadores Municipais",
-    brand_href = "#",
+    brand = 'Dados Abertos Brasil',
+    brand_style = {'font-weight': 'bold', 'color': '#FEDF00'},
+    brand_href = "https://www.gustavofurtado.com/dab.html",
     color = "primary",
     dark = True,
 ),
@@ -183,6 +185,8 @@ def load_leaflet(kpi, color, uf):
              [State('memory_kpi', 'data'),
               State('memory_uf', 'pathname')])
 def info_hover(feature, data, uf):
+    if uf == '/':
+        uf = '/SP'
     return get_info(feature, kpi=data, uf=uf[1:])
 
 
