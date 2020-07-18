@@ -7,6 +7,34 @@ import utils
 
 # Definir lista de parâmetros do SIDRA
 KPIS = {
+        
+    'Taxa de Alfabetização': {
+        'agregado': 1383,
+        'periodo': 2010,
+        'variaveis': 1646,
+        'classificacoes': {2: 6794}
+    },
+
+    'População Economicamente Ativa': {
+        'agregado': 616,
+        'periodo': 2010,
+        'variaveis': 1000140,
+        'classificacoes': {90: 3287}
+    },
+    
+    'População sem Religião': {
+        'agregado': 137,
+        'periodo': 2010,
+        'variaveis': 1000093,
+        'classificacoes': {133: 2836}
+    },
+
+    'População Indígena': {
+        'agregado': 136,
+        'periodo': 2010,
+        'variaveis': 1000093,
+        'classificacoes': {86: 2780}
+    },
     
     'Rede Geral de Abastecimento de Água': {
         'agregado': 3218,

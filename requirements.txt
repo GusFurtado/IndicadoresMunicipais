@@ -2,7 +2,6 @@ requests
 dash_leaflet
 bs4
 pandas
-json
 dash
 dash_core_components
 dash_html_components

@@ -9,19 +9,21 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Output, Input, State, ALL
-#import plotly.graph_objects as go
 import dash_leaflet as dl
 from dash_leaflet import express as dlx
 
 
 # Data packages
-#import pandas as pd
 import json
 import utils
-    
+
 
 # Listas
 KPIS = [
+    'Taxa de Alfabetização',
+    'População Economicamente Ativa',
+    'População sem Religião',
+    'População Indígena',
     'Lixo Coletado',
     'Energia Elétrica',
     'Rede Geral de Abastecimento de Água',
@@ -30,7 +32,7 @@ KPIS = [
 
 UFS = [uf for uf in utils.lista_ufs()]
 COLORS = [
-    'default', 'royal', 'ruby', 'maize'
+    'default', 'royal', 'ruby', 'maize', 'volt'
 ]
 
 
