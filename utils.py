@@ -210,7 +210,7 @@ def get_colorscale(color):
         'ruby':    ['#FDEDEE', '#F7B6BA', '#F17E86', '#EB4752', '#DC1826', '#A5121C', '#6E0C13', '#370609'],
         'maize':   ['#FFFCEB', '#FFF3AD', '#FFEA70', '#FFE033', '#F5D000', '#B89C00', '#7A6800', '#3D3400'],
         'volt':    ['#FBFFEB', '#EFFFAD', '#E2FF70', '#D6FF33', '#C4F500', '#93B800', '#627A00', '#313D00'],
-        'portal':  ['#B86E00', '#FF9A00', '#FFBE5C', '#FFDEAD', '#ADE1FF', '#5CC3FF', '#00A2FF', '#0074B8']
+        'portal':  ['#FF5D00', '#FF9A00', '#FFBE5C', '#FFDEAD', '#ADE1FF', '#5CC3FF', '#00A2FF', '#0065FF']
     }
     
     return colorscales[color]

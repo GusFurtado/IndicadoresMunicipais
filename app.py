@@ -35,7 +35,8 @@ COLORS = ['default', 'royal', 'ruby', 'maize', 'volt', 'portal']
 
 
 def get_info(feature=None, kpi=None, uf='AC'):
-    header = [html.H4(utils.lista_ufs()[uf]['Nome'])]
+    header = [html.H4(utils.lista_ufs()[uf]['Nome'],
+                      style = {'margin': '0 0 5px', 'color': '#777'})]
     if not feature:
         return header + ["Escolha um município"]
     return header + [html.B(feature["properties"]["name"]), html.Br(),
@@ -88,7 +89,7 @@ app.layout = html.Div([
     
         dbc.DropdownMenu(
             [dbc.DropdownMenuItem(
-                [html.Span(html.Img(src=f'/assets/{color}.png', height=20)),
+                [html.Span(html.Img(src=f'https://raw.githubusercontent.com/GusFurtado/IndicadoresMunicipais/master/assets/{color}.png', height=20)),
                  html.Span('  ' + color)],
                 n_clicks_timestamp = 0,
                 id = {'item_color': color}
@@ -172,7 +173,16 @@ def load_leaflet(kpi, color, uf):
     
     # Criar caixa de informações
     info = html.Div(children=get_info(), id="info", className="info",
-                    style={"position": "absolute", "bottom": "10px", "right": "10px", "z-index": "1000"})
+                    style={"position": "absolute",
+                           "bottom": "10px",
+                           "right": "10px",
+                           "z-index": "1000",
+                           'padding': '6px 8px',
+                           'font': '14px/16px Arial, Helvetica, sans-serif',
+                           'background': 'rgba(255,255,255,0.8)',
+                           'box-shadow': '0 0 15px rgba(0,0,0,0.2)',
+                           'border-radius': '5px'}
+                    )
     
     return dl.Map(
         children = [dl.TileLayer(), geojson, colorbar, info],
