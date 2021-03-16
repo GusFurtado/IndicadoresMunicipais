@@ -10,6 +10,8 @@ O Projeto Mapa de Indicadores Municipais pode ser separado nas seguintes etapas:
 
 
 
+from DadosAbertosBrasil import favoritos
+
 import json
 
 import dash
@@ -87,8 +89,11 @@ app.layout = html.Div([
         dbc.DropdownMenu([
             html.A(
                 dbc.DropdownMenuItem([
-                    html.Span(html.Img(src=utils.bandeiras(uf, 20))),
-                    html.Span('  ' + utils.lista_ufs()[uf]['Nome'])
+                    html.Span(
+                        html.Img(src=favoritos.bandeira(uf, 20)),
+                        className = 'mr-2'
+                    ),
+                    html.Span(utils.lista_ufs()[uf]['Nome'])
                 ],
                     id = {'uf_menu_item': uf}
                 ),
