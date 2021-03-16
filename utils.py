@@ -1,8 +1,4 @@
-import requests
-
 import dash_leaflet as dl
-from bs4 import BeautifulSoup
-import pandas as pd
 
 
 
@@ -141,37 +137,6 @@ def lista_ufs() -> dict:
                'Longitude': -50.95}
         
     }
-
-
-
-def lista_municipios():
-    '''
-    Capturar lista de municípios do Wikipedia e seus respectivos atributos.
-
-    Retorna
-    -------
-    pandas.core.frame.DataFrame
-        Tabela de municípios do Wikipedia convertida em DataFrame.
-
-    --------------------------------------------------------------------------
-    '''
-
-    # Request soup
-    s = requests.Session()
-    html = s.get(r'https://pt.wikipedia.org/wiki/Lista_de_munic%C3%ADpios_do_Brasil_por_popula%C3%A7%C3%A3o').text
-    soup = BeautifulSoup(html, 'html.parser')
-
-    # Scrapping
-    table = soup.find_all('table', 'wikitable')
-    tbody = table[0].find('tbody')
-    header = [th.text.replace('\n', '') for th in tbody.find_all('th')]
-    data = [[td.text.replace('\n', '').replace(u'\xa0', '') for td in tr.find_all('td')] for tr in tbody.find_all('tr')][1:]
-
-    # DataFrame
-    df = pd.DataFrame(data, columns=header)
-    df['href'] = [td.find('a')['href'] for td in tbody.find_all('tr')[1:]]
-    
-    return df
 
 
 
