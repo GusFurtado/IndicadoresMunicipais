@@ -72,6 +72,7 @@ def update_map(data):
         color = data['kpi'],
         mapbox_style = 'open-street-map',
         color_continuous_scale = data['colorscale'],
+        opacity = 0.5,
         hover_name = 'Município',
         hover_data = {'Código': False, data['kpi']: True}
     )
@@ -81,13 +82,12 @@ def update_map(data):
             'accesstoken': TOKEN,
             'bearing': 0,
             'pitch': 0,
-            'zoom': 5,
+            'zoom': 5.5,
             'center': {
                 'lat': utils.UFS[data['uf']]['Latitude'],
                 'lon': utils.UFS[data['uf']]['Longitude']
             }
         },
-        'autosize': True,
         'hovermode': 'closest',
         'margin': {
             'r': 0,
