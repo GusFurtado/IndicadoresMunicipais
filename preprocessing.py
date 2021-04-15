@@ -1,11 +1,8 @@
-import json
-
-from DadosAbertosBrasil import ibge, favoritos
-
-import utils
+from DadosAbertosBrasil import ibge
+import pandas as pd
 
 
-# Definir lista de parâmetros do SIDRA
+
 KPIS = {
         
     'Taxa de Alfabetização': {
@@ -67,40 +64,26 @@ KPIS = {
 }
 
 
-# Baixar dados do SIDRA
-resultados = []
-for i in KPIS:
-    
-    print(f'Baixando dados de {i}')
-    kpi = KPIS[i]
 
-    sidra = ibge.Sidra(agregado = kpi['agregado'],
-                       periodos = kpi['periodo'],
-                       variaveis = kpi['variaveis'],
-                       classificacoes = kpi['classificacoes'],
-                       localidades = {'N6': 'all'})
+series = []
+for kpi in KPIS:
+    print(f'Capturando dados de {kpi}')
+    df = ibge.sidra(
+        tabela = KPIS[kpi]['agregado'],
+        periodos = KPIS[kpi]['periodo'],
+        variaveis = KPIS[kpi]['variaveis'],
+        classificacoes = KPIS[kpi]['classificacoes'],
+        localidades = {6: 'all'}
+    )
+    df = df.loc[:,['Município (Código)', 'Município', 'Valor']]
+    df.Valor = df.Valor.replace('-', 0)
+    df.Valor = df.Valor.astype(float)
+    df.columns = ['Código', 'Município', kpi]
+    df.set_index(['Código', 'Município'], inplace=True)
+    series.append(df)
 
-    resultados.append(sidra.rodar())
 
 
-# Criar GeoJSONs
-UFS = [uf[:2] for uf in utils.lista_ufs()]    
-
-for uf in UFS:
-    print(f'Criando GeoJSON de {uf}')
-    geo = favoritos.geojson(uf)
-    for id_geo in geo['features']:
-        for i, resultado in zip(KPIS, resultados):
-            for id_res in resultado[0]['resultados'][0]['series']:
-                if id_geo['properties']['id'] == id_res['localidade']['id']:
-                    try:
-                        value = float(id_res['serie'][str(kpi['periodo'])])
-                    except:
-                        value = 0
-                    id_geo['properties'].update({i: value})
-                    break
-
-    with open(f'data/{uf}_geo.json', 'w') as f:
-        json.dump(geo, f)
-
-print('Fim.')
+df_concat = pd.concat(series, axis=1)
+df_concat.reset_index(inplace=True)
+df_concat.to_parquet('data/Indicadores.parquet')
