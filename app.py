@@ -27,6 +27,7 @@ app = dash.Dash(
 )
 
 app.layout = layout.layout
+server = app.server
 
 
 

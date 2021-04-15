@@ -4,9 +4,8 @@ Este é o repositório para os arquivos do meu projeto de Indicadores Municipais
 
 - Capturar dados abertos do IBGE através da biblioteca **[Dados Abertos Brasil](https://www.gustavofurtado.com/dab.html)**;
 - Inserir os dados capturados em um arquivo **[GeoJSON](https://github.com/tbrugz/geodata-br)**;
-- Carregar o novo GeoJSON em um mapa **[Leaflet](https://github.com/thedirtyfew/dash-leaflet)**;
-- Construir uma interface de inputs e callbacks via **[Dash](https://github.com/plotly/dash)**;
-- Deploy do app no **[Heroku](https://mapa-indicadores-municipais.herokuapp.com/)**
+- Construir uma interface de inputs, callbacks e um **[Choropleth Map](https://www.mapbox.com/)** via **[Dash](https://github.com/plotly/dash)**;
+- Deploy do app no **[Heroku](https://mapa-indicadores-municipais.herokuapp.com/)**.
 
 ---
 
