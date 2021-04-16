@@ -88,12 +88,8 @@ layout = html.Div([
     ),
     navbar,
     dcc.Loading(
-        dcc.Graph(
-            id = 'map',
-            style = {'height': 545}
-        )
+        dcc.Graph(id='map')
     )
 ],
-    id = 'background',
-    style = {'height': '100%'}
+    id = 'background'
 )
