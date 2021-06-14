@@ -1,3 +1,9 @@
+# Repositório Descontinuado
+
+Este repositório foi substituido pelo **[DAB Applications](https://github.com/GusFurtado/DAB-Apps)**, onde se uniu ao **[Painel de Deputados](https://github.com/GusFurtado/PainelDeputados)** e ao **[Indicadores Econômicos](https://github.com/GusFurtado/IndicadoresEconomicos)** em uma única aplicação.
+
+---
+
 # **Mapa de Indicadores Municipais**
 
 Este é o repositório para os arquivos do meu projeto de Indicadores Municipais. Ele pode ser separado nas seguintes etapas:
